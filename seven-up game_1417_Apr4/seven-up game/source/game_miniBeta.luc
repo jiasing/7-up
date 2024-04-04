@@ -6,8 +6,8 @@ module game_miniBeta (
     input rst,  // reset
     
     output debug_out[16],
-    output current_score[16],
-    output current_level[16],
+    output test_case0[16],
+    output test_case1[16],
     output debug_slowclock,
     output debug_vcclock,
     output debug_random[8],
@@ -108,8 +108,8 @@ module game_miniBeta (
     
     debug_out = regfiles.timer;
  //   debug_out = vc.debug;
-    current_score = regfiles.all_scores[15:0];
-    current_level = regfiles.all_scores[31:16];
+    test_case0 = regfiles.all_scores[15:0];
+    test_case1 = regfiles.all_scores[31:16];
     debug_slowclock = slow_timer.value;
     debug_vcclock = vc.out;
     debug_random = game_controlunit.debug_random;

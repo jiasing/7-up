@@ -89,7 +89,7 @@ module game_CU (
         game_fsm.SET_OVERALL_HIGHSCORE:
           we_regfile = 1;
           regfile_write_address = b0011;
-          alu_out_sel = b10;
+          alu_out_sel = b11;
           game_fsm.d = game_fsm.START_GAME;
           
         game_fsm.START_GAME: // gray
@@ -111,7 +111,7 @@ module game_CU (
           
         game_fsm.RESET_SCORE:
           regfile_write_address = b0000;
-          alu_out_sel = b10;
+          alu_out_sel = b01;
           we_regfile = 1;
           game_fsm.d = game_fsm.RESET_LEVEL;
          
@@ -242,7 +242,7 @@ module game_CU (
         game_fsm.BRANCH_HIGHSCORE:
           we_regfile = 0;
           regfile_read_address_b = b0100;
-          if (~regfile_datain[0]) {
+          if (regfile_datain[0]) {
             game_fsm.d = game_fsm.NEW_HIGHSCORE;
           } else {
             game_fsm.d = game_fsm.RESTART;

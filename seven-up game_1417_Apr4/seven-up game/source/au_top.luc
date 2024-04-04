@@ -55,10 +55,10 @@ module au_top (
     
     //show the counter value at led   
     io_led[2] = gameMachine.debug_out; 
-    io_led[1] = gameMachine.current_level;    
-    io_led[0] = gameMachine.current_score;
+    io_led[1] = gameMachine.test_case1;    
+    io_led[0] = gameMachine.test_case0;
     //led[0] = gameMachine.debug_slowclock;
-    //led[1] = gameMachine.debug_vcclock;
+    //led[1] = gameMachine.debug_vcclock;  
     
     //update 7segments
     dec_ctr.inc = gameMachine.decimal_counter_increase;
