@@ -20,6 +20,7 @@ module game_CU (
     output decimal_counter_rst,
     output debug[4],
     output debug_random[8]
+    //asdfafsadf
   ) {
 
   
