@@ -113,7 +113,7 @@ module game_miniBeta (
     debug_slowclock = slow_timer.value;
     debug_vcclock = vc.out;
     debug_random = game_controlunit.debug_random;
-    game_controlunit.game_start = up_button;
+    game_controlunit.game_start = plus_button;
  
   }
 }

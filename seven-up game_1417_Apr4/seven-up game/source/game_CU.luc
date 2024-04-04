@@ -132,15 +132,15 @@ module game_CU (
           
         game_fsm.STORE_BUTTON_PRESS_PLUS:
           alufn = b0011010; //A
-          asel = b01;
-          we_regfile = 1;
-          regfile_write_address = b0001;
+          asel = b01; //value of 1
+          we_regfile = 1; 
+          regfile_write_address = b0001; 
           alu_out_sel = b00;
           game_fsm.d = game_fsm.CHECK_RIGHT_ANSWER;
           
         game_fsm.STORE_BUTTON_PRESS_UP:
           alufn = b0011010; //A
-          asel = b10;
+          asel = b10; //value of 0
           we_regfile = 1;
           regfile_write_address = b0001;
           alu_out_sel = b00;
@@ -160,7 +160,7 @@ module game_CU (
         game_fsm.BRANCH_BUTTON_PRESS:
           we_regfile = 0;
           regfile_read_address_b = b0010;
-          if (~regfile_datain[0]) {
+          if (regfile_datain[0]) {
             game_fsm.d = game_fsm.INCREASE_SCORE; // if the value in reg[2] != 0, increase the score
             } else {
             game_fsm.d = game_fsm.GAME_OVER; // if the value in reg[2] == 0
@@ -293,10 +293,10 @@ module game_CU (
             if (timer){
               game_fsm.d = game_fsm.CHECK_GAME_TIMER;
             }
-            else if (plus_button && ~up_button){
+            else if (plus_button & ~up_button){
                 game_fsm.d = game_fsm.STORE_BUTTON_PRESS_PLUS;
             }
-            else if (~plus_button && up_button){
+            else if (~plus_button & up_button){
                 game_fsm.d = game_fsm.STORE_BUTTON_PRESS_UP;
             }
             else{

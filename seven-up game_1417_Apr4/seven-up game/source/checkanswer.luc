@@ -10,6 +10,15 @@ module checkanswer (
   always {
     contains7.num = num; 
     mod7.num = num;
-    out = mod7.out & contains7.out & button_pressed; //1 means press + button. aka NOT x7 and DONT CONTAIN 7
+    
+    //contains7.out = 1 if there isnt a digit 7 in the number
+    // mod7.out = 1  if its not a mulitple of 7.
+    // button_pressed = 1 if we press + button.
+    if (mod7.out & contains7.out){
+      out = button_pressed; //need to press + button (value of 1). if we press UP, we return 0. 0 means wrong, 1 means correct.
+      }
+    else{
+      out = ~button_pressed;
+      }
   }
 }

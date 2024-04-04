@@ -13,7 +13,7 @@ module contains7 (
   mod10 mod10_3;
   
   always {
-    ones = mod10_1.out; //if out = 1 means press doesnt contain 7
+    ones = mod10_1.out; //out = 0 means it contains 7. out = 1 means dont have 7.
     mod10_1.num = num;
   
     firstdivide = num/10;
@@ -24,6 +24,6 @@ module contains7 (
     hundreds = mod10_3.out;
     mod10_3.num = seconddivide;
     
-    out = ones | tens | hundreds;  //1 means 
+    out = ones & tens & hundreds;  //1 means there isnt a digit 7 in the number.
       }
 }
