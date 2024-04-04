@@ -1,0 +1,63 @@
+module alu (
+    input a[16],
+    input b[16],
+    input alufn_signal[7], //because alufn is 7 bits, the rest will have ssue but its okay since they drop MSB, they shld operate as per normal.
+    output out[16],
+    output zvn[3]
+  ) {
+  
+  adder adderUnit;
+  boolean booleanUnit;
+  shifter shifterUnit;
+  compare compareUnit; 
+  checkanswer seven_checker;
+  
+  sig z;
+  sig v;
+  sig n;
+  
+  
+  always {
+    
+    adderUnit.alufn_signal = alufn_signal;
+    adderUnit.a = a;
+    adderUnit.b = b;
+    
+    z = adderUnit.z;
+    v = adderUnit.v;
+    n = adderUnit.n; 
+    
+    zvn[0] = z;
+    zvn[1] = v;
+    zvn[2] = n;
+     
+    
+    compareUnit.alufn_signal = alufn_signal;
+    compareUnit.z = z;
+    compareUnit.v = v;
+    compareUnit.n = n;
+    
+    booleanUnit.alufn_signal = alufn_signal;
+    booleanUnit.a = a;
+    booleanUnit.b = b;
+    
+    shifterUnit.alufn_signal = alufn_signal;
+    shifterUnit.a = a;
+    shifterUnit.b = b[3:0];
+    
+    seven_checker.num = b;
+    seven_checker.button_pressed = a;
+    
+    case(alufn_signal[6:4]){
+      b000 : out = adderUnit.out;
+      b001 : out = booleanUnit.out;
+      b010 : out = shifterUnit.out;
+      b011 : out = compareUnit.out;
+      b100 : out = seven_checker.out;
+
+      default: out = 16b0;
+    }
+    
+    
+  }
+}

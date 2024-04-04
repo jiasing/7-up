@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CounterGame" board="Alchitry Au" language="Lucid" version="3">
+  <files>
+    <component>pipeline.luc</component>
+    <component>counter.luc</component>
+    <src>decimal_counter.luc</src>
+    <src>checkanswer.luc</src>
+    <src>game_CU.luc</src>
+    <src>adder.luc</src>
+    <src>alu.luc</src>
+    <src>seven_seg.luc</src>
+    <src>game_miniRegfiles.luc</src>
+    <component>reset_conditioner.luc</component>
+    <component>button_conditioner.luc</component>
+    <src>compare.luc</src>
+    <src>multi_seven_seg.luc</src>
+    <src>game_miniBeta.luc</src>
+    <src>shifter.luc</src>
+    <src top="true">au_top.luc</src>
+    <src>mod10.luc</src>
+    <component>decoder.luc</component>
+    <src>variable_counter.luc</src>
+    <src>contains7.luc</src>
+    <src>mod7.luc</src>
+    <component>pn_gen.luc</component>
+    <src>multi_dec_ctr.luc</src>
+    <src>boolean.luc</src>
+    <component>edge_detector.luc</component>
+    <constraint lib="true">alchitry.acf</constraint>
+    <constraint lib="true">io.acf</constraint>
+    <constraint lib="true">au.xdc</constraint>
+  </files>
+</project>

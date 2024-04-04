@@ -1,0 +1,15 @@
+module checkanswer (
+    input num[10],
+    input button_pressed, //if button_pressed = 1, means + button pressed. if 0 means UP button pressed. 
+    output out
+  ) {
+
+  contains7 contains7;
+  mod7 mod7;
+  
+  always {
+    contains7.num = num; 
+    mod7.num = num;
+    out = mod7.out & contains7.out & button_pressed; //1 means press + button. aka NOT x7 and DONT CONTAIN 7
+  }
+}

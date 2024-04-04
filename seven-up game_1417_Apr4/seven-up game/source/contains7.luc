@@ -1,0 +1,29 @@
+module contains7 (
+    input num[10],
+    output out
+  ) {
+
+  sig ones;
+  sig tens;
+  sig hundreds;
+  sig firstdivide;
+  sig seconddivide;
+  mod10 mod10_1;
+  mod10 mod10_2;
+  mod10 mod10_3;
+  
+  always {
+    ones = mod10_1.out; //if out = 1 means press doesnt contain 7
+    mod10_1.num = num;
+  
+    firstdivide = num/10;
+    tens = mod10_2.out;
+    mod10_2.num = firstdivide;
+    
+    seconddivide = firstdivide /10;
+    hundreds = mod10_3.out;
+    mod10_3.num = seconddivide;
+    
+    out = ones | tens | hundreds;  //1 means 
+      }
+}

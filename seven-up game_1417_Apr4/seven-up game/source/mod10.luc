@@ -1,0 +1,17 @@
+module mod10(
+    input num[16],
+    output out
+  ) {
+  var remainder, n;
+
+  always {
+    n = num / 10 ;
+    remainder = num - (n * 10);
+    if (remainder == 7) { //remainder = 7 means it contains 7
+      out = 0;}
+    else {
+      out = 1; // 1 means press + button
+    }    }
+    
+}
+

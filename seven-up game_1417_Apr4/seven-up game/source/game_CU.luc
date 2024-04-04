@@ -1,0 +1,307 @@
+module game_CU (
+    input clk,  // clock
+    input rst,  // reset
+    input timer,
+    input regfile_datain[16], //direct reading of regfile data from read_address_b
+    input game_start,
+    
+    input up_button,
+    input plus_button,
+    
+    output alufn[7],
+    output asel[3],
+    output bsel[3],
+    output alu_out_sel[2],
+    output regfile_write_address[4],
+    output regfile_read_address_a[4],
+    output regfile_read_address_b[4],
+    output we_regfile,
+    output decimal_counter_increase,
+    output decimal_counter_rst,
+    output debug[4],
+    output debug_random[8]
+  ) {
+
+  
+  .clk(clk){
+    fsm game_fsm={
+      START_MACHINE,
+      SET_OVERALL_HIGHSCORE,
+      START_GAME,
+      SET_START_VALUES,
+      RESET_TIMER,
+      RESET_SCORE,
+      RESET_LEVEL,
+      RESET_NEXT_LEVEL,
+      IDLE,
+      STORE_BUTTON_PRESS_PLUS,
+      STORE_BUTTON_PRESS_UP,
+      CHECK_RIGHT_ANSWER,
+      BRANCH_BUTTON_PRESS,
+      INCREASE_SCORE,
+      SUB_NEXT_LV,
+      CHECK_NEXT_LV,
+      BRANCH_CHECK_NEXT_LV,
+      INCREASE_LEVEL,
+      RESET_NEXT_LV,
+      GAME_OVER,
+      CHECK_OVERALL_HIGHSCORE,
+      BRANCH_HIGHSCORE,
+      NEW_HIGHSCORE,
+      RESTART,
+      CHECK_GAME_TIMER,
+      BRANCH_GAME_TIMER,
+      DECREASE_GAME_TIMER
+      };
+    
+  }
+  
+  always {
+  
+    // standard setting unless otherwise overwritten by each case 
+    alufn = 0;
+    asel = 0; 
+    bsel = 0;
+    we_regfile = 0;
+    regfile_write_address = 1111;
+    regfile_read_address_a = 0000;
+    regfile_read_address_b = 0000;
+    alu_out_sel = 0;
+    debug_random = 0;
+    
+    debug = b0000;
+    
+    decimal_counter_increase = 0;
+    decimal_counter_rst = 0;
+    
+    if (rst){
+        game_fsm.d = game_fsm.START_MACHINE;
+        decimal_counter_rst = 1;
+    }
+    else{
+    
+    case(game_fsm.q) {
+      
+        game_fsm.START_MACHINE:
+          game_fsm.d = game_fsm.SET_OVERALL_HIGHSCORE;
+          
+        game_fsm.SET_OVERALL_HIGHSCORE:
+          we_regfile = 1;
+          regfile_write_address = b0011;
+          alu_out_sel = b10;
+          game_fsm.d = game_fsm.START_GAME;
+          
+        game_fsm.START_GAME: // gray
+          if (game_start) {
+          game_fsm.d = game_fsm.SET_START_VALUES;}
+            
+          
+        game_fsm.SET_START_VALUES: //idk what is this for. JS: i think this is useless lol
+          regfile_write_address = b0000;
+          alu_out_sel = b10;
+          we_regfile = 1;
+          game_fsm.d = game_fsm.RESET_TIMER;
+          
+        game_fsm.RESET_TIMER:
+          regfile_write_address = b0101;
+          alu_out_sel = b11;
+          we_regfile = 1;
+          game_fsm.d = game_fsm.RESET_SCORE;
+          
+        game_fsm.RESET_SCORE:
+          regfile_write_address = b0000;
+          alu_out_sel = b10;
+          we_regfile = 1;
+          game_fsm.d = game_fsm.RESET_LEVEL;
+         
+        game_fsm.RESET_LEVEL:
+          regfile_write_address = b0111;
+          alu_out_sel = b01;
+          we_regfile = 1;
+          game_fsm.d = game_fsm.RESET_NEXT_LEVEL;
+        
+        game_fsm.RESET_NEXT_LEVEL:
+          alufn = b0000000; // ADD 
+          asel = b10;
+          bsel = b11;
+          we_regfile = 1;
+          regfile_write_address = b0110;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.IDLE;
+          
+        game_fsm.STORE_BUTTON_PRESS_PLUS:
+          alufn = b0011010; //A
+          asel = b01;
+          we_regfile = 1;
+          regfile_write_address = b0001;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.CHECK_RIGHT_ANSWER;
+          
+        game_fsm.STORE_BUTTON_PRESS_UP:
+          alufn = b0011010; //A
+          asel = b10;
+          we_regfile = 1;
+          regfile_write_address = b0001;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.CHECK_RIGHT_ANSWER;
+          
+        game_fsm.CHECK_RIGHT_ANSWER:
+          alufn = b1000000;
+          asel = b00;
+          bsel = b00;
+          we_regfile = 1;
+          regfile_read_address_a = b0001;
+          regfile_read_address_b = b0000;
+          regfile_write_address = b0010;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.BRANCH_BUTTON_PRESS;
+          
+        game_fsm.BRANCH_BUTTON_PRESS:
+          we_regfile = 0;
+          regfile_read_address_b = b0010;
+          if (~regfile_datain[0]) {
+            game_fsm.d = game_fsm.INCREASE_SCORE; // if the value in reg[2] != 0, increase the score
+            } else {
+            game_fsm.d = game_fsm.GAME_OVER; // if the value in reg[2] == 0
+          }
+          
+        game_fsm.INCREASE_SCORE:
+          alufn = b0000000; // ADD 
+          asel = b00;
+          bsel = b00;
+          we_regfile = 1;
+          regfile_read_address_a = b0000;
+          regfile_read_address_b = b0111;
+          regfile_write_address = b0000;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.SUB_NEXT_LV;
+          
+        game_fsm.SUB_NEXT_LV:
+          alufn = b0000001; // SUB 
+          asel = b00;
+          bsel = b00;
+          we_regfile = 1; 
+          regfile_read_address_a = b0110;
+          regfile_read_address_b = b0111;
+          regfile_write_address = b0110;
+          game_fsm.d = game_fsm.CHECK_NEXT_LV;
+        
+        game_fsm.CHECK_NEXT_LV:
+          alufn = b0110111; // CMPLE
+          asel = b00;
+          bsel = b10;
+          we_regfile = 1;
+          regfile_read_address_a = b0110;
+          regfile_write_address = b1000;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.BRANCH_CHECK_NEXT_LV;
+          
+        game_fsm.BRANCH_CHECK_NEXT_LV:
+          we_regfile = 0;
+          regfile_read_address_b = b1000;
+          if (~regfile_datain[0]) {
+            game_fsm.d = game_fsm.INCREASE_LEVEL;
+          } else {
+            game_fsm.d = game_fsm.IDLE;
+          }
+        
+        game_fsm.INCREASE_LEVEL:
+          alufn = b0000000;
+          asel = b00; 
+          bsel = b01;
+          we_regfile = 1;
+          regfile_read_address_a = b0111;
+          regfile_write_address = b0111;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.RESET_NEXT_LV;
+          
+        game_fsm.RESET_NEXT_LV:
+          alufn = b0000000;
+          asel = b10;
+          bsel = b11;
+          we_regfile = 1;
+          regfile_write_address = b0110;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.IDLE;
+        
+        game_fsm.GAME_OVER:
+          game_fsm.d = game_fsm.CHECK_OVERALL_HIGHSCORE;
+         
+        game_fsm.CHECK_OVERALL_HIGHSCORE:
+          alufn = b0110101; // CMPLT
+          asel = b00;
+          bsel = b00;
+          we_regfile = b01;
+          regfile_read_address_a = b0011;
+          regfile_read_address_b = b0000;
+          regfile_write_address = b0100;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.BRANCH_HIGHSCORE;
+        
+        game_fsm.BRANCH_HIGHSCORE:
+          we_regfile = 0;
+          regfile_read_address_b = b0100;
+          if (~regfile_datain[0]) {
+            game_fsm.d = game_fsm.NEW_HIGHSCORE;
+          } else {
+            game_fsm.d = game_fsm.RESTART;
+          }
+          
+        game_fsm.NEW_HIGHSCORE:
+          alufn = b0011010; //A 
+          asel = b00;
+          we_regfile = 1;
+          regfile_read_address_a = b0000;
+          regfile_write_address = b0011;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.RESTART;
+          
+        game_fsm.RESTART:
+          game_fsm.d = game_fsm.START_GAME;
+          
+        game_fsm.CHECK_GAME_TIMER:
+          alufn = b0110011; // CMPEQ
+          asel = b00;
+          bsel = b10;                              //constant 0
+          we_regfile = 1;
+          regfile_read_address_a = b0101;
+          regfile_write_address = b1111;
+          alu_out_sel = b00;
+          game_fsm.d = game_fsm.BRANCH_GAME_TIMER;
+        
+        game_fsm.BRANCH_GAME_TIMER:
+          regfile_read_address_b = b1111;          //temp reg
+        if (~regfile_datain[0]){                 //if timer is not zero
+          game_fsm.d = game_fsm.DECREASE_GAME_TIMER;
+          }
+        else{
+          game_fsm.d = game_fsm.GAME_OVER;
+          }
+        
+        game_fsm.DECREASE_GAME_TIMER:
+          alufn = b0000001; //SUB
+          asel = b00; 
+          bsel = b01;   
+          we_regfile = 1;
+          regfile_read_address_a = b0101; 
+          regfile_write_address = b0101;
+          game_fsm.d = game_fsm.IDLE;
+          
+         game_fsm.IDLE:
+            debug_random = 30;
+            if (timer){
+              game_fsm.d = game_fsm.CHECK_GAME_TIMER;
+            }
+            else if (plus_button && ~up_button){
+                game_fsm.d = game_fsm.STORE_BUTTON_PRESS_PLUS;
+            }
+            else if (~plus_button && up_button){
+                game_fsm.d = game_fsm.STORE_BUTTON_PRESS_UP;
+            }
+            else{
+                game_fsm.d = game_fsm.IDLE;
+            }
+      }
+    } 
+  }
+}

@@ -1,0 +1,17 @@
+module mod7(
+    input num[10],
+    output out
+  ) {
+  var remainder, n;
+
+  always {
+    n = num / 7 ;
+    remainder = num - (n * 7);
+    if (remainder == 0) {  //remainder 0 means its a multiple of 7.
+      out = 0;}   // 0 means press UP button
+    else {
+      out = 1; // 1 means press + button
+    }
+    
+}
+
