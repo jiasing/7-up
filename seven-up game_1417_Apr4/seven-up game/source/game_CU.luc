@@ -89,7 +89,7 @@ module game_CU (
         game_fsm.SET_OVERALL_HIGHSCORE:
           we_regfile = 1;
           regfile_write_address = b0011;
-          alu_out_sel = b11;
+          alu_out_sel = b10;
           game_fsm.d = game_fsm.START_GAME;
           
         game_fsm.START_GAME: // gray

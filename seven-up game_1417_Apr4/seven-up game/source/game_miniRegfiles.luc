@@ -97,8 +97,8 @@ module game_miniRegfiles (
     
     
     //For debugging
-    all_scores[15:0] = current_score.q;
-    all_scores[31:16] = highscore.q;
+    all_scores[15:0] = current_score.q; //test case 0
+    all_scores[31:16] = current_level.q; // test case 1
     //all_buttons[1:0] = p1_buttonPress.q[1:0];
     //all_buttons[3:2] = p2_buttonPress.q[1:0];
     timer = game_timer.q;
