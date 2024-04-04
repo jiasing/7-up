@@ -7,7 +7,7 @@ module game_miniBeta (
     
     output debug_out[16],
     output current_score[16],
-    output highscore[16],
+    output current_level[16],
     output debug_slowclock,
     output debug_vcclock,
     output debug_random[8],
@@ -80,7 +80,7 @@ module game_miniBeta (
       b00 : inputAlu_b = regfiles.out_b;
       b01 : inputAlu_b = 1;
       b10 : inputAlu_b = 0;
-      b11 : inputAlu_b = 50;
+      b11 : inputAlu_b = b110010;
       default: //necessary to init
           inputAlu_b = 0;
       
@@ -109,7 +109,7 @@ module game_miniBeta (
     debug_out = regfiles.timer;
  //   debug_out = vc.debug;
     current_score = regfiles.all_scores[15:0];
-    highscore = regfiles.all_scores[31:16];
+    current_level = regfiles.all_scores[31:16];
     debug_slowclock = slow_timer.value;
     debug_vcclock = vc.out;
     debug_random = game_controlunit.debug_random;
