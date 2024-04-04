@@ -200,7 +200,7 @@ module game_CU (
         game_fsm.BRANCH_CHECK_NEXT_LV:
           we_regfile = 0;
           regfile_read_address_b = b1000;
-          if (~regfile_datain[0]) {
+          if (regfile_datain[0]) {
             game_fsm.d = game_fsm.INCREASE_LEVEL;
           } else {
             game_fsm.d = game_fsm.IDLE;
