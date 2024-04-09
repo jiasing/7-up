@@ -74,6 +74,7 @@ module au_top (
     seg.values[0] = current_score_1;
     seg.values[1] = current_score_10;
     seg.values[2] = current_score_100;
+    seg.values[3] = gameMachine.curr_level;
     io_seg = ~seg.seg;
     io_sel = ~seg.sel;
   }

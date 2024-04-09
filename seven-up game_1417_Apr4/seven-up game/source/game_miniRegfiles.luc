@@ -14,6 +14,7 @@ module game_miniRegfiles (
     
     //debug
     output timer[16],
+    output curr_level[4],
     output all_scores[32]
     //output all_buttons[4],
     //output counter_out[16]
@@ -102,5 +103,6 @@ module game_miniRegfiles (
     //all_buttons[1:0] = p1_buttonPress.q[1:0];
     //all_buttons[3:2] = p2_buttonPress.q[1:0];
     timer = game_timer.q;
+    curr_level = current_level.q;
   }
 }

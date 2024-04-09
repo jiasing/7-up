@@ -12,7 +12,7 @@ module game_miniBeta (
     output debug_vcclock,
     output debug_random[8],
    
-    
+    output curr_level[4],
     output decimal_counter_increase,
     output decimal_counter_rst
   ) {
@@ -114,6 +114,7 @@ module game_miniBeta (
     debug_vcclock = vc.out;
     debug_random = game_controlunit.debug_random;
     game_controlunit.game_start = plus_button;
+    curr_level = regfiles.curr_level;
  
   }
 }
