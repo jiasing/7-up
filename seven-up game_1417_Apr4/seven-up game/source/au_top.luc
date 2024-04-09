@@ -28,9 +28,11 @@ module au_top (
 
     edge_detector edge_dt_plus (#RISE(1), #FALL(0));
     edge_detector edge_dt_UP(#RISE(1), #FALL(0));
+    edge_detector edge_dt_START(#RISE(1), #FALL(0));
 
     button_conditioner btn_cond_plus;
     button_conditioner btn_cond_UP;
+    button_conditioner btn_cond_START;
     
     multi_dec_ctr dec_ctr;
   }
@@ -54,6 +56,10 @@ module au_top (
     btn_cond_UP.in=io_button[3];
     edge_dt_UP.in=btn_cond_UP.out;  
     gameMachine.up_button = edge_dt_UP.out; //UP is LEFT BUTTON.
+    
+    btn_cond_START.in=io_button[2];
+    edge_dt_START.in=btn_cond_START.out;  
+    gameMachine.start_button = edge_dt_START.out; //START IS MIDDLE BUTTON
 
     
     //show the counter value at led   
