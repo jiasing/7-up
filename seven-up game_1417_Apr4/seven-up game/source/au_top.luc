@@ -59,20 +59,17 @@ module au_top (
     
     btn_cond_START.in=io_button[2];
     edge_dt_START.in=btn_cond_START.out;  
-    gameMachine.start_button = edge_dt_START.out; //START IS MIDDLE BUTTON
+    gameMachine.start_button = edge_dt_START.out; //START IS DOWN BUTTON
 
     
     //show the counter value at led   
-    io_led[2] = gameMachine.debug_out; 
-    io_led[1] = gameMachine.test_case1;    
-    io_led[0] = gameMachine.test_case0;
-    //led[0] = gameMachine.debug_slowclock;
-    //led[1] = gameMachine.debug_vcclock;  
+    io_led[2] = gameMachine.curr_time;   
+    io_led[0] = gameMachine.curr_score;
     
     //current_score
-    current_score_100 = gameMachine.test_case0 / 100;
-    current_score_10 = (gameMachine.test_case0 - current_score_100 * 100) / 10;
-    current_score_1 = (gameMachine.test_case0 - current_score_100 * 100 - current_score_10 * 10);
+    current_score_100 = gameMachine.curr_score / 100;
+    current_score_10 = (gameMachine.curr_score - current_score_100 * 100) / 10;
+    current_score_1 = (gameMachine.curr_score - current_score_100 * 100 - current_score_10 * 10);
     
     //update 7segments
     dec_ctr.inc = gameMachine.decimal_counter_increase;

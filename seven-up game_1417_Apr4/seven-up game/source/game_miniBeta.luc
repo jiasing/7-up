@@ -6,9 +6,8 @@ module game_miniBeta (
     input clk,  // clock
     input rst,  // reset
     
-    output debug_out[16],
-    output test_case0[16],
-    output test_case1[16],
+    output curr_time[16],
+    output curr_score[16],
     output debug_slowclock,
     output debug_vcclock,
     output debug_random[8],
@@ -25,7 +24,6 @@ module game_miniBeta (
   alu game_alu;
 
   .clk(clk){
-    //edge_detector edge_detector_variableCounter (#RISE(1), #FALL(0));  JS: Im sure we dont need this
     edge_detector game_timer_detector(#RISE(1), #FALL(0));
     
     .rst(rst){
@@ -43,10 +41,8 @@ module game_miniBeta (
     
     //edge detectors
     game_timer_detector.in = slow_timer.value; // 30 second timer detector
-    //edge_detector_variableCounter.in = vc.out; // random counter increase signal JS: Im sure we dont need this
-    
+  
     //pass timer and counter signals to CU unit 
-    //game_controlunit.increase_counter = edge_detector_variableCounter.out; JS: Im sure we dont need this
     game_controlunit.timer = game_timer_detector.out;
     
     //pass button press signal to CU unit
@@ -102,20 +98,13 @@ module game_miniBeta (
           regfiles.data = game_alu.out;
     }
     
-    //for debugging
-  //  debug_out[3:0] = regfiles.all_buttons;
-  //  debug_out[7:4] = regfiles.out;    
-  //  debug_out = game_controlunit.debug;
+    curr_time = regfiles.timer;
+    curr_score = regfiles.curr_score; //current_score
     
-    debug_out = regfiles.timer;
- //   debug_out = vc.debug;
-    test_case0 = regfiles.all_scores[15:0]; //current_score
-    test_case1 = regfiles.all_scores[31:16];
     debug_slowclock = slow_timer.value;
     debug_vcclock = vc.out;
     debug_random = game_controlunit.debug_random;
     game_controlunit.game_start = start_button;
     curr_level = regfiles.curr_level;
- 
   }
 }

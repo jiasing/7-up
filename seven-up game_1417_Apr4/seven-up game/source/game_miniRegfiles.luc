@@ -15,30 +15,20 @@ module game_miniRegfiles (
     //debug
     output timer[16],
     output curr_level[4],
-    output all_scores[32]
-    //output all_buttons[4],
-    //output counter_out[16]
+    output curr_score[16]
 
   ) 
 
 {
   .clk(clk){
-    .rst(rst){
-      //dff p1_score[16](#INIT(0));
-      //dff p2_score[16](#INIT(0));
-      //dff p1_buttonPress[16](#INIT(0));
-      //dff p2_buttonPress[16](#INIT(0));
-      //dff current_counter[16](#INIT(0));
-      //dff temp_var[16](#INIT(0));
-      //dff current_timer[16](#INIT(0));
-      
+    .rst(rst){    
       dff current_score[16](#INIT(1));
       dff button_pressed_by_user[16](#INIT(0));
       dff check_correct_button[16](#INIT(0));
       dff highscore[16](#INIT(0));
       dff check_new_highscore[16](#INIT(0));
       dff game_timer[16](#INIT(0));
-      dff next_level_score[16](#INIT(0)); //is reg 6, 3b110
+      dff next_level_score[16](#INIT(0)); 
       dff current_level[16](#INIT(0));
       dff check_level_up[16](#INIT(0));
       dff temp_var[16](#INIT(0));
@@ -90,7 +80,7 @@ module game_miniRegfiles (
         b0101 : out_b = game_timer.q;
         b0110 : out_b = next_level_score.q;
         b0111 : out_b = current_level.q;
-        b1000 : out_b = check_level_up.q;  // Assuming out_b is not used for b10001
+        b1000 : out_b = check_level_up.q;  
         b1111 : out_b = temp_var.q;
         default : out_b = 0;
     }
@@ -98,10 +88,7 @@ module game_miniRegfiles (
     
     
     //For debugging
-    all_scores[15:0] = current_score.q; //test case 0
-    all_scores[31:16] = current_level.q; // test case 1
-    //all_buttons[1:0] = p1_buttonPress.q[1:0];
-    //all_buttons[3:2] = p2_buttonPress.q[1:0];
+    curr_score[15:0] = current_score.q;
     timer = game_timer.q;
     curr_level = current_level.q;
   }
