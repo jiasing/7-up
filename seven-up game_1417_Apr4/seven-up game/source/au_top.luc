@@ -12,6 +12,9 @@ module au_top (
   ) {
   
   sig rst;                  // reset signal
+  var current_score_1;
+  var current_score_10;
+  var current_score_100;
   
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
@@ -60,10 +63,17 @@ module au_top (
     //led[0] = gameMachine.debug_slowclock;
     //led[1] = gameMachine.debug_vcclock;  
     
+    //current_score
+    current_score_100 = gameMachine.test_case0 / 100;
+    current_score_10 = (gameMachine.test_case0 - current_score_100 * 100) / 10;
+    current_score_1 = (gameMachine.test_case0 - current_score_100 * 100 - current_score_10 * 10);
+    
     //update 7segments
     dec_ctr.inc = gameMachine.decimal_counter_increase;
     dec_ctr.rst = gameMachine.decimal_counter_rst;
-    seg.values = dec_ctr.digits;
+    seg.values[0] = current_score_1;
+    seg.values[1] = current_score_10;
+    seg.values[2] = current_score_100;
     io_seg = ~seg.seg;
     io_sel = ~seg.sel;
   }

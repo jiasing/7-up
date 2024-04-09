@@ -108,7 +108,7 @@ module game_miniBeta (
     
     debug_out = regfiles.timer;
  //   debug_out = vc.debug;
-    test_case0 = regfiles.all_scores[15:0];
+    test_case0 = regfiles.all_scores[15:0]; //current_score
     test_case1 = regfiles.all_scores[31:16];
     debug_slowclock = slow_timer.value;
     debug_vcclock = vc.out;
