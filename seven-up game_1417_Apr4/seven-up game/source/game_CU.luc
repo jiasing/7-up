@@ -33,7 +33,7 @@ module game_CU (
       RESET_TIMER,
       RESET_SCORE,
       RESET_LEVEL,
-      RESET_NEXT_LEVEL,
+      RESET_NEXT_LEVEL_SCORE,
       IDLE,
       STORE_BUTTON_PRESS_PLUS,
       STORE_BUTTON_PRESS_UP,
@@ -44,7 +44,7 @@ module game_CU (
       CHECK_NEXT_LV,
       BRANCH_CHECK_NEXT_LV,
       INCREASE_LEVEL,
-      RESET_NEXT_LV,
+      INCREASE_NEXT_LV_SCORE,
       GAME_OVER,
       CHECK_OVERALL_HIGHSCORE,
       BRANCH_HIGHSCORE,
@@ -119,9 +119,9 @@ module game_CU (
           regfile_write_address = b0111;
           alu_out_sel = b01;
           we_regfile = 1;
-          game_fsm.d = game_fsm.RESET_NEXT_LEVEL;
+          game_fsm.d = game_fsm.RESET_NEXT_LEVEL_SCORE;
         
-        game_fsm.RESET_NEXT_LEVEL:
+        game_fsm.RESET_NEXT_LEVEL_SCORE:
           alufn = b0000000; // ADD 
           asel = b10;
           bsel = b11;
@@ -175,24 +175,25 @@ module game_CU (
           regfile_read_address_b = b0111;
           regfile_write_address = b0000;
           alu_out_sel = b00;
-          game_fsm.d = game_fsm.SUB_NEXT_LV;
-          
-        game_fsm.SUB_NEXT_LV:
-          alufn = b0000001; // SUB 
-          asel = b00;
-          bsel = b00;
-          we_regfile = 1; 
-          regfile_read_address_a = b0110;
-          regfile_read_address_b = b0111;
-          regfile_write_address = b0110;
           game_fsm.d = game_fsm.CHECK_NEXT_LV;
+          
+        //game_fsm.SUB_NEXT_LV:
+          //alufn = b0000001; // SUB 
+          //asel = b00;
+          //bsel = b00;
+          //we_regfile = 1; 
+          //regfile_read_address_a = b0110;
+          //regfile_read_address_b = b0111;
+          //regfile_write_address = b0110;
+          //game_fsm.d = game_fsm.CHECK_NEXT_LV;
         
-        game_fsm.CHECK_NEXT_LV:
+        game_fsm.CHECK_NEXT_LV:  //check if score_to_next_level <= current score
           alufn = b0110111; // CMPLE
           asel = b00;
-          bsel = b10;
+          bsel = b00;
           we_regfile = 1;
           regfile_read_address_a = b0110;
+          regfile_read_address_b = b0000;
           regfile_write_address = b1000;
           alu_out_sel = b00;
           game_fsm.d = game_fsm.BRANCH_CHECK_NEXT_LV;
@@ -207,20 +208,21 @@ module game_CU (
           }
         
         game_fsm.INCREASE_LEVEL:
-          alufn = b0000000;
+          alufn = b0000000; //add
           asel = b00; 
           bsel = b01;
           we_regfile = 1;
           regfile_read_address_a = b0111;
           regfile_write_address = b0111;
           alu_out_sel = b00;
-          game_fsm.d = game_fsm.RESET_NEXT_LV;
+          game_fsm.d = game_fsm.INCREASE_NEXT_LV_SCORE;
           
-        game_fsm.RESET_NEXT_LV:
+        game_fsm.INCREASE_NEXT_LV_SCORE:
           alufn = b0000000;
-          asel = b10;
+          asel = b00;
           bsel = b11;
           we_regfile = 1;
+          regfile_read_address_a = b0110;
           regfile_write_address = b0110;
           alu_out_sel = b00;
           game_fsm.d = game_fsm.IDLE;

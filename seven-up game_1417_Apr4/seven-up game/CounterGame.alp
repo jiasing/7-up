@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="CounterGame" board="Alchitry Au" language="Lucid" version="3">
   <files>
-    <src>variable_counter.luc</src>
-    <src>checkanswer.luc</src>
-    <src>compare.luc</src>
-    <src>shifter.luc</src>
-    <src>contains7.luc</src>
     <component>pipeline.luc</component>
     <component>counter.luc</component>
-    <src>decimal_counter.luc</src>
-    <src>alu.luc</src>
-    <src>multi_dec_ctr.luc</src>
-    <src>boolean.luc</src>
-    <component>reset_conditioner.luc</component>
-    <src>mod10.luc</src>
-    <component>button_conditioner.luc</component>
-    <src>game_miniBeta.luc</src>
-    <src>multi_seven_seg.luc</src>
-    <src top="true">au_top.luc</src>
-    <src>seven_seg.luc</src>
     <src>game_CU.luc</src>
-    <src>game_miniRegfiles.luc</src>
-    <src>adder.luc</src>
+    <src>boolean.luc</src>
+    <src>compare.luc</src>
+    <src>multi_dec_ctr.luc</src>
+    <src>variable_counter.luc</src>
+    <component>reset_conditioner.luc</component>
+    <component>button_conditioner.luc</component>
+    <src>contains7.luc</src>
+    <src>alu.luc</src>
+    <src>decimal_counter.luc</src>
+    <src>mod10.luc</src>
+    <src>checkanswer.luc</src>
     <component>decoder.luc</component>
+    <src>shifter.luc</src>
     <component>pn_gen.luc</component>
-    <src>mod7.luc</src>
+    <src>game_miniBeta.luc</src>
+    <src>game_miniRegfiles.luc</src>
+    <src>seven_seg.luc</src>
+    <src top="true">au_top.luc</src>
+    <src>adder.luc</src>
+    <src>multi_seven_seg.luc</src>
     <component>edge_detector.luc</component>
-    <constraint>io.acf</constraint>
+    <src>mod7.luc</src>
     <constraint lib="true">alchitry.acf</constraint>
     <constraint lib="true">au.xdc</constraint>
+    <constraint>io.acf</constraint>
   </files>
 </project>
