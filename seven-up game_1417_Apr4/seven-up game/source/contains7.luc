@@ -3,26 +3,26 @@ module contains7 (
     output out
   ) {
 
-  sig ones;
-  sig tens;
-  sig hundreds;
-  sig firstdivide;
-  sig seconddivide;
+  var ones;
+  var tens;
+  var hundreds;
+  var firstdivide;
+  var seconddivide;
   mod10 mod10_1;
   mod10 mod10_2;
   mod10 mod10_3;
   
   always {
-    ones = mod10_1.out; //out = 0 means it contains 7. out = 1 means dont have 7.
     mod10_1.num = num;
-  
-    firstdivide = num/10;
-    tens = mod10_2.out;
+    ones = mod10_1.out; //out = 0 means it contains 7. out = 1 means dont have 7.
+
+    firstdivide = num / 10;
     mod10_2.num = firstdivide;
-    
-    seconddivide = firstdivide /10;
-    hundreds = mod10_3.out;
+    tens = mod10_2.out;
+
+    seconddivide = firstdivide / 10;
     mod10_3.num = seconddivide;
+    hundreds = mod10_3.out;
     
     out = ones & tens & hundreds;  //1 means there isnt a digit 7 in the number.
       }
