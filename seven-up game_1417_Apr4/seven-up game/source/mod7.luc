@@ -1,6 +1,6 @@
 module mod7(
     input num[10],
-    output out
+    output out //1 means not multiple of 7
   ) {
   var remainder, n;
 

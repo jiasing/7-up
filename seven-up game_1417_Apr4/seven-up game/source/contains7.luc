@@ -1,16 +1,18 @@
 module contains7 (
     input num[10],
-    output out
+    output out //1 = there is a 7 inside.
   ) {
 
-  sig ones;
-  sig tens;
-  sig hundreds;
-  sig firstdivide;
-  sig seconddivide;
+  var ones;
+  var tens;
+  var hundreds;
+  var firstdivide;
+  var seconddivide;
   mod10 mod10_1;
   mod10 mod10_2;
   mod10 mod10_3;
+
+
   
   always {
     ones = mod10_1.out; //out = 0 means it contains 7. out = 1 means dont have 7.
@@ -24,6 +26,7 @@ module contains7 (
     hundreds = mod10_3.out;
     mod10_3.num = seconddivide;
     
-    out = ones & tens & hundreds;  //1 means there isnt a digit 7 in the number.
+    out = (ones & tens & hundreds);  //1 means there isnt a digit 7 in the number.
+
       }
 }

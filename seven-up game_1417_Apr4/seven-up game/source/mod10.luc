@@ -8,9 +8,9 @@ module mod10(
     n = num / 10 ;
     remainder = num - (n * 10);
     if (remainder == 7) { //remainder = 7 means it contains 7
-      out = 0;}
+      out = 0;} // 0 means HAVE 7 
     else {
-      out = 1; // 1 means press + button
+      out = 1; // 1 means NO 7
     }    }
     
 }
