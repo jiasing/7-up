@@ -58,6 +58,9 @@ pin io_sel[0] A9;
 pin io_sel[1] A8;
 pin io_sel[2] A42;
 pin io_sel[3] A43;
+pin io_sel[4] A12;
+pin io_sel[5] A11;
+pin io_sel[6] A14;
 
 pin io_seg[0] A5;
 pin io_seg[1] A6;

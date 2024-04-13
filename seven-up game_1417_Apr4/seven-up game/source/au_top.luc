@@ -6,7 +6,7 @@ module au_top (
     output usb_tx,          // USB->Serial output
     output io_led [3][8],   // LEDs on IO Shield
     output io_seg [8],      // 7-segment LEDs on IO Shield
-    output io_sel [4],      // Digit select on IO Shield
+    output io_sel [7],      // Digit select on IO Shield
     input io_button [5],    // 5 buttons on IO Shield
     input io_dip [3][8]     // DIP switches on IO Shield
   ) {
@@ -15,6 +15,9 @@ module au_top (
   var current_score_1;
   var current_score_10;
   var current_score_100;
+  var current_highscore_1;
+  var current_highscore_10;
+  var current_highscore_100;
   
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
@@ -71,6 +74,12 @@ module au_top (
     current_score_10 = (gameMachine.curr_score - current_score_100 * 100) / 10;
     current_score_1 = (gameMachine.curr_score - current_score_100 * 100 - current_score_10 * 10);
     
+    //current highscore
+    current_highscore_100 = gameMachine.curr_highscore / 100;
+    current_highscore_10 = (gameMachine.curr_highscore - current_highscore_100 * 100) / 10;
+    current_highscore_1 = (gameMachine.curr_highscore - current_highscore_100 * 100 - current_highscore_10 * 10);
+    
+    
     //update 7segments
     dec_ctr.inc = gameMachine.decimal_counter_increase;
     dec_ctr.rst = gameMachine.decimal_counter_rst;
@@ -78,6 +87,11 @@ module au_top (
     seg.values[1] = current_score_10;
     seg.values[2] = current_score_100;
     seg.values[3] = gameMachine.curr_level;
+    seg.values[4] = current_highscore_1;
+    seg.values[5] = current_highscore_10;
+    seg.values[6] = current_highscore_100;
+
+    
     io_seg = ~seg.seg;
     io_sel = ~seg.sel;
   }

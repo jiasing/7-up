@@ -1,5 +1,5 @@
 module multi_dec_ctr #(
-    DIGITS = 4 : DIGITS >= 2  // number of digits
+    DIGITS = 7 : DIGITS >= 2  // number of digits
   ) (
     input clk,                // clock
     input rst,                // reset

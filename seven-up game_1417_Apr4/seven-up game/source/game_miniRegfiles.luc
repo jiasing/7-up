@@ -15,7 +15,8 @@ module game_miniRegfiles (
     //debug
     output timer[16],
     output curr_level[4],
-    output curr_score[16]
+    output curr_score[16],
+    output curr_highscore[16]
 
   ) 
 
@@ -91,5 +92,6 @@ module game_miniRegfiles (
     curr_score[15:0] = current_score.q;
     timer = game_timer.q;
     curr_level = current_level.q;
+    curr_highscore = highscore.q;
   }
 }
