@@ -12,12 +12,9 @@ module au_top (
   ) {
   
   sig rst;                  // reset signal
-  var current_score_1;
-  var current_score_10;
-  var current_score_100;
-  var current_highscore_1;
-  var current_highscore_10;
-  var current_highscore_100;
+
+  digit_display score;
+  digit_display highscore;
   
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
@@ -28,7 +25,7 @@ module au_top (
     }
     
     reset_conditioner reset_cond;
-
+    
     edge_detector edge_dt_plus (#RISE(1), #FALL(0));
     edge_detector edge_dt_UP(#RISE(1), #FALL(0));
     edge_detector edge_dt_START(#RISE(1), #FALL(0));
@@ -68,26 +65,21 @@ module au_top (
     io_led[0] = gameMachine.curr_score;
     
     //current_score
-    current_score_100 = gameMachine.curr_score / 100;
-    current_score_10 = (gameMachine.curr_score - current_score_100 * 100) / 10;
-    current_score_1 = (gameMachine.curr_score - current_score_100 * 100 - current_score_10 * 10);
+    score.value = gameMachine.curr_score;
     
     //current highscore
-    current_highscore_100 = gameMachine.curr_highscore / 100;
-    current_highscore_10 = (gameMachine.curr_highscore - current_highscore_100 * 100) / 10;
-    current_highscore_1 = (gameMachine.curr_highscore - current_highscore_100 * 100 - current_highscore_10 * 10);
+    highscore.value = gameMachine.curr_highscore;
     
     
     //update 7segments
-    seg.values[0] = current_score_1;
-    seg.values[1] = current_score_10;
-    seg.values[2] = current_score_100;
+    seg.values[0] = score.ones_place;
+    seg.values[1] = score.tens_place;
+    seg.values[2] = score.hundreds_place;
     seg.values[3] = gameMachine.curr_level;
-    seg.values[4] = current_highscore_1;
-    seg.values[5] = current_highscore_10;
-    seg.values[6] = current_highscore_100;
+    seg.values[4] = highscore.ones_place;
+    seg.values[5] = highscore.tens_place;
+    seg.values[6] = highscore.hundreds_place;
 
-    
     io_seg = ~seg.seg;
     io_sel = ~seg.sel;
   }

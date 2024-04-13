@@ -12,7 +12,6 @@ module game_miniRegfiles (
     output out_a[16], //read port a
     output out_b[16], //read port b
     
-    //debug
     output timer[16],
     output curr_level[4],
     output curr_score[16],
@@ -87,9 +86,8 @@ module game_miniRegfiles (
     }
       
     
-    
-    //For debugging
-    curr_score[15:0] = current_score.q;
+    //connections to au_top
+    curr_score = current_score.q;
     timer = game_timer.q;
     curr_level = current_level.q;
     curr_highscore = highscore.q;

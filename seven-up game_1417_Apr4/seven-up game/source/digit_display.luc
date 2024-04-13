@@ -1,0 +1,21 @@
+module digit_display (
+    input value [16],  // clock
+    output ones_place[4],
+    output tens_place[4],
+    output hundreds_place[4]
+
+  ) {
+  
+  var ones;
+  var tens;
+  var hundreds;
+
+  always {
+    hundreds = value / 100;
+    tens = (value - hundreds * 100) / 10;
+    ones = (value - hundreds * 100 - tens * 10);  
+    
+    ones_place = ones;
+    tens_place = tens;
+    hundreds_place = hundreds;
+}}
