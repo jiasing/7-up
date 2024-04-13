@@ -36,8 +36,6 @@ module au_top (
     button_conditioner btn_cond_plus;
     button_conditioner btn_cond_UP;
     button_conditioner btn_cond_START;
-    
-    multi_dec_ctr dec_ctr;
   }
   
   always {
@@ -81,8 +79,6 @@ module au_top (
     
     
     //update 7segments
-    dec_ctr.inc = gameMachine.decimal_counter_increase;
-    dec_ctr.rst = gameMachine.decimal_counter_rst;
     seg.values[0] = current_score_1;
     seg.values[1] = current_score_10;
     seg.values[2] = current_score_100;
