@@ -51,7 +51,7 @@ module au_top (
     edge_dt_plus.in=btn_cond_plus.out; //get the edge of button press
     gameMachine.plus_button = edge_dt_plus.out; // + is RIGHT BUTTON
     
-    btn_cond_UP.in=io_button[3];
+    btn_cond_UP.in=io_button[0];
     edge_dt_UP.in=btn_cond_UP.out;  
     gameMachine.up_button = edge_dt_UP.out; //UP is LEFT BUTTON.
     
