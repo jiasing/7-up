@@ -82,7 +82,7 @@ module game_miniBeta (
     case (game_controlunit.alu_out_sel){
       b01 : regfiles.data = 1;
       b10 : regfiles.data = 0;
-      b11 : regfiles.data = 30;
+      b11 : regfiles.data = 31;
       default : //b00
           regfiles.data = game_alu.out;
     }
